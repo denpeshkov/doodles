@@ -41,9 +41,9 @@ func TestMerge(t *testing.T) {
 			mergedCh := Merge(FromSlice(cc)...)
 
 			// Receive values from the merged channel
-			var result []int
-			for range tc.elCount * tc.chCount {
-				result = append(result, <-mergedCh)
+			result := make([]int, tc.elCount*tc.chCount)
+			for i := range result {
+				result[i] = <-mergedCh
 			}
 
 			if _, ok := <-mergedCh; ok {
@@ -51,12 +51,12 @@ func TestMerge(t *testing.T) {
 			}
 
 			// Compare the received values with the expected values
-			var expected []int
-			for i := range tc.elCount * tc.chCount {
-				expected = append(expected, i)
+			expected := make([]int, tc.elCount*tc.chCount)
+			for i := range expected {
+				expected[i] = i
 			}
 
-			if !cmp.Equal(expected, result, cmpopts.SortSlices(stdcmp.Less[int])) {
+			if !cmp.Equal(expected, result, cmpopts.EquateEmpty(), cmpopts.SortSlices(stdcmp.Less[int])) {
 				t.Fatalf("expected: %v; got: %v", expected, result)
 			}
 		})
@@ -64,9 +64,9 @@ func TestMerge(t *testing.T) {
 }
 
 func createChannels(n int) []chan int {
-	var cc []chan int
-	for range n {
-		cc = append(cc, make(chan int))
+	cc := make([]chan int, n)
+	for i := range cc {
+		cc[i] = make(chan int)
 	}
 	return cc
 }
