@@ -1,29 +1,26 @@
 package chmerge
 
+import "sync"
+
 // Merge merges input channels into the output channel.
 // The returned channel is closed when all input channels are closed.
 func Merge[T any](channels ...<-chan T) <-chan T {
 	ch := make(chan T)
-	done := make(chan struct{})
+	var wg sync.WaitGroup
+	wg.Add(len(channels))
 
 	for _, c := range channels {
-		c := c
 		go func() {
 			for v := range c {
 				ch <- v
 			}
-			done <- struct{}{}
+			wg.Done()
 		}()
 	}
 
-	doneCnt := 0
 	go func() {
 		defer close(ch)
-		defer close(done)
-		for doneCnt < len(channels) {
-			<-done
-			doneCnt++
-		}
+		wg.Wait()
 	}()
 	return ch
 }
