@@ -1,1 +1,0 @@
-Function to count the number of inversions in the array based on merge sort

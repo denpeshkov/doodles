@@ -1,1 +1,0 @@
-Simple function to merge multiple channels into one.
