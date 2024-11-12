@@ -7,7 +7,7 @@ import (
 )
 
 // FanIn merges multiple input channels into one output channel. The order of the produced elements is undefined.
-// The returned channel is closed when all input channels are closed or done channel is closed.
+// The returned channel is closed when all input channels are closed or the provided context is canceled.
 func FanIn[T any](ctx context.Context, channels ...<-chan T) <-chan T {
 	mergedCh := make(chan T)
 	var wg sync.WaitGroup
