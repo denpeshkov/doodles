@@ -1,5 +1,5 @@
-// Package concur provides common concurrency patterns.
-package concur
+// Package pattern provides common patterns.
+package pattern
 
 import (
 	"context"
