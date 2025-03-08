@@ -51,7 +51,7 @@ func TestFanIn(t *testing.T) {
 		}
 		chans = append(chans, toChan(ss[i:]))
 
-		mergedCh := FanIn(context.Background(), chans...)
+		mergedCh := Merge(context.Background(), chans...)
 
 		dedup := make(map[int]struct{})
 		for v := range mergedCh {
