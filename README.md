@@ -11,4 +11,4 @@ This repository contains solutions to various coding exercises and small practic
 `tagcloud` — a tag cloud data structure
 `tree` — a stripped-down implementation of the Unix `tree` command
 `wc` — a stripped-down implementation of the Unix `wc` command
-`concur_getter` - Concurrent `Get`.
+`concur_getter` - parallel requests, return first result
