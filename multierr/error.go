@@ -1,4 +1,4 @@
-// Package multierror implements types to combine together and handle multiple errors.
+// Package multierr implements types to combine together and handle multiple errors.
 package multierr
 
 import (

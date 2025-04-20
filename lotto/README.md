@@ -1,1 +1,0 @@
-Implementation project 1-31 from TADM book
