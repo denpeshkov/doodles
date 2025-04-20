@@ -12,3 +12,4 @@ This repository contains solutions to various coding exercises and small practic
 `tree` — a stripped-down implementation of the Unix `tree` command
 `wc` — a stripped-down implementation of the Unix `wc` command
 `concur_getter` - parallel requests, return first result
+`equal_trees` - check if binary trees are equivalent
