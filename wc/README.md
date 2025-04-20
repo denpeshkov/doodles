@@ -1,1 +1,0 @@
-A Unix `wc` implementation in Go

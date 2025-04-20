@@ -1,7 +1,7 @@
 package pattern
 
 // Or returns a channel that is closed when any of the input channels is closed.
-func Or(channels ...<-chan any) <-chan any {
+func Or(channels ...<-chan struct{}) <-chan struct{} {
 	switch len(channels) {
 	case 0:
 		return nil
@@ -9,7 +9,7 @@ func Or(channels ...<-chan any) <-chan any {
 		return channels[0]
 	}
 
-	done := make(chan any)
+	done := make(chan struct{})
 	go func() {
 		defer close(done)
 
