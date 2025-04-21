@@ -13,3 +13,4 @@ This repository contains solutions to various coding exercises and small practic
 `wc` — a stripped-down implementation of the Unix `wc` command
 `concur_getter` - parallel requests, return first result
 `equal_trees` - check if binary trees are equivalent
+`rate` - a simple rate limiter
