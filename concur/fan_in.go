@@ -15,9 +15,17 @@ func Merge[T any](ctx context.Context, channels ...<-chan T) <-chan T {
 	for _, ch := range channels {
 		go func(ch <-chan T) {
 			defer wg.Done()
-			for v := range ch {
+			for {
 				select {
-				case mergedCh <- v:
+				case v, ok := <-ch:
+					if !ok {
+						return
+					}
+					select {
+					case mergedCh <- v:
+					case <-ctx.Done():
+						return
+					}
 				case <-ctx.Done():
 					return
 				}
