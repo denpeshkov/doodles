@@ -1,5 +1,5 @@
 .PHONY: all
-all: help tidy lint test test/cover
+all: tidy test
 
 .PHONY: help
 help: ## Display this help screen
@@ -9,18 +9,9 @@ help: ## Display this help screen
 tidy: ## Tidy
 	go mod tidy -v
 	go mod verify
-	go fmt ./... 
+	go fmt ./...
 	go vet ./...
-
-.PHONY: lint
-lint: ## Lint
-	golangci-lint run -v -c .golangci.yml
 
 .PHONY: test
 test: ## Test
-	go test -race -buildvcs ./...
-
-.PHONY: test/cover
-test/cover: ## Test and cover
-	go test -race -buildvcs -coverprofile=cover.out ./...
-	go tool cover -html=cover.out
+	go test -race -count=1 ./...

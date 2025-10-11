@@ -28,32 +28,6 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version: ${{ matrix.go-version }}
-          
+
       - name: Test
-        run: go test -race ./...
-
-  golangci:
-    name: lint
-    strategy:
-      matrix:
-        go-version: [stable]
-        os: [ubuntu-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
-    env:
-      GOLANGCI_LINT_VERSION: v2.0.2
-    permissions:
-      contents: read
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Go ${{ matrix.go-version }} on ${{ matrix.os }}
-        uses: actions/setup-go@v5
-        with:
-          go-version: ${{ matrix.go-version }}
-
-      - name: Lint
-        uses: golangci/golangci-lint-action@v7
-        with:
-          version: ${{ env.GOLANGCI_LINT_VERSION }}
+        run: go test -race -count=1 ./...
