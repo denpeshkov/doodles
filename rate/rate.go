@@ -1,4 +1,4 @@
-package main
+package rate
 
 import (
 	"sync"
@@ -21,10 +21,7 @@ func (r *RateLimiter) CanTake() bool {
 	r.mu.Lock()
 	defer r.mu.Unlock()
 
-	now := time.Now()
-	r.tokens = r.advance(now.Sub(r.last))
-	r.last = now
-
+	r.advance()
 	if r.tokens == 1 {
 		r.tokens--
 		return true
@@ -36,17 +33,16 @@ func (r *RateLimiter) Take() {
 	r.mu.Lock()
 	defer r.mu.Unlock()
 
-	now := time.Now()
-	r.tokens = r.advance(now.Sub(r.last))
-	r.last = now
-
+	r.advance()
 	time.Sleep(r.durationFromTokens(1 - r.tokens)) // 0 returns immediately
 	r.tokens--
 }
 
-func (r *RateLimiter) advance(dur time.Duration) (newTokens float64) {
-	delta := dur.Seconds() * r.limit
-	return min(r.tokens+delta, 1) // burst of 1
+func (r *RateLimiter) advance() {
+	now := time.Now()
+	delta := now.Sub(r.last).Seconds() * r.limit
+	r.tokens = min(r.tokens+delta, 1) // burst of 1
+	r.last = now
 }
 
 func (r *RateLimiter) durationFromTokens(tokens float64) time.Duration {

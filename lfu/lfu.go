@@ -18,9 +18,9 @@ func New[K comparable, V any](capacity int) *LFU[K, V] {
 	h := make(minHeap[K, V], 0, capacity)
 	heap.Init(&h)
 	return &LFU[K, V]{
-		capacity: capacity,
 		m:        make(map[K]*entry[K, V]),
 		h:        h,
+		capacity: capacity,
 	}
 }
 
